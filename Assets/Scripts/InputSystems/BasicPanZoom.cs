@@ -55,30 +55,19 @@ public class BasicPanZoom : MonoBehaviour
     }
 
     // TODO : i think if we base it more on the circle diameter later it's a better option as it gives us more room to work with
-    public Vector2 PanDirection(float x , float y)
+    public Vector3 PanDirection(float x , float y)
     {
-        Vector2 direction = Vector2.zero;
-        if (y >= Screen.height * magnitude)
+        Vector3 direction = Vector3.zero;
+        if (y >= Screen.height * magnitude || x>= Screen.width * magnitude  || y <= Screen.height * magnitude || x <= Screen.width * magnitude)
         {
-            direction.y += 1;
-        }
-        else if(y <= Screen.height)
-        {
-            direction.y -= 1; 
-        }
-        else if (x >= Screen.width * magnitude)
-        {
-            direction.x += 1; 
-        }
-        else if(x <= Screen.width * magnitude) 
-        {
-            direction.x -= 1; 
+            direction.x = x;
+            direction.y = y; 
         }
         return direction; 
     }
     public void PanScreen(float x , float y)
     {
-        Vector2 direction =  PanDirection(x , y);
-        camraTransform.position = Vector3.Lerp(camraTransform.position, camraTransform.position + (Vector3)direction * panSpeed, Time.deltaTime); 
+        Vector3 direction =  PanDirection(x , y);
+        camraTransform.Translate(camraTransform.forward * direction.sqrMagnitude * Time.deltaTime * 0.001f);
     }
 }
