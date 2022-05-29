@@ -34,37 +34,40 @@ public class CameraController : MonoBehaviour
         float horizontal = inputProvider.GetAxisValue(0);
         float vertical = inputProvider.GetAxisValue(1);
         float forwardinput = inputProvider.GetAxisValue(2);
-        if(forwardinput > 0)
+        if (forwardinput != 0 || vertical !=0 || horizontal !=0)
         {
-            Debug.Log("forward");
-            newPos += (virtualCamera.transform.forward * movementSpeed); 
-        }
-        if(forwardinput < 0)
-        {
-            Debug.Log("forward");
-            newPos += (virtualCamera.transform.forward * -movementSpeed); 
-        }
-        if(horizontal >= Screen.width * panPercential)
-        {
-            Debug.Log("horizontal");
-            newPos += (virtualCamera.transform.right * movementSpeed);
-        }
-        if (horizontal <= Screen.width - (Screen.width * panPercential))
-        {
-            Debug.Log("horizontal");
-            newPos += (virtualCamera.transform.right * -movementSpeed);
-        }
-        if (vertical >= Screen.height * panPercential)
-        {
-            Debug.Log("vertical");
-            newPos += (virtualCamera.transform.up * movementSpeed); 
-        }
-        if (vertical <= Screen.height - (Screen.height * panPercential))
-        {
-            Debug.Log("vertical");
-            newPos += (virtualCamera.transform.up * -movementSpeed);
-        }
+            if (forwardinput > 0)
+            {
+                Debug.Log("front");
+                newPos += (virtualCamera.transform.forward * movementSpeed);
+            }
+            if(forwardinput<0)
+            {
+                Debug.Log("back");
+                newPos += (virtualCamera.transform.forward * -movementSpeed);
+            }
 
+            if (horizontal >= Screen.width * panPercential)
+            {
+                Debug.Log("right");
+                newPos += (virtualCamera.transform.right * movementSpeed);
+            }
+            if (horizontal <= Screen.width - (Screen.width * panPercential))
+            {
+                Debug.Log("left");
+                newPos += (virtualCamera.transform.right * -movementSpeed);
+            }
+            if (vertical >= Screen.height * panPercential)
+            {
+                Debug.Log("up");
+                newPos += (virtualCamera.transform.up * movementSpeed);
+            }
+            if (vertical <= Screen.height - (Screen.height * panPercential))
+            {
+                Debug.Log("down");
+                newPos += (virtualCamera.transform.up * -movementSpeed);
+            }
+        }
         virtualCamera.transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * movementTime); 
     }
 }
